@@ -12,6 +12,7 @@ export default defineConfig({
       "@atomics": "/src/atomics",
       "@features": "/src/features",
       "@hooks": "/src/hooks",
+      '@APIs': '/src/APIs'
     },
   },
 });

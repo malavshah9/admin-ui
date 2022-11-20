@@ -20,7 +20,8 @@
       "@util/*": ["util/*"],
       "@atomics/*": ["atomics/*"],
       "@features/*": ["features/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@APIs/*": ["APIs/*"]
     }
   },
   "include": ["src"],

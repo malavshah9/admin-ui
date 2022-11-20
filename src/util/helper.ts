@@ -9,3 +9,18 @@ export function searchInAdminItem(searchString: string, item: AdminItem) {
     }).length > 0
   );
 }
+
+export function deleteSelectedAdminById(
+  items: AdminItem[],
+  idsToDelete: Array<AdminItem["id"]>
+) {
+  let pushedArray = [];
+  for (let i = 0; i < items.length; i++) {
+    if (
+      idsToDelete.findIndex((fValue, fIndex) => items[i].id === fValue) === -1
+    ) {
+      pushedArray.push(items[i]);
+    }
+  }
+  return pushedArray;
+}

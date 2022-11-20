@@ -6,34 +6,41 @@ import DataGrid from "@atomics/DataGrid";
 import PaginationGrid from "@atomics/PaginationGrid";
 import Button from "@atomics/Button";
 
-import useFetch from "@hooks/useFetch.hooks";
-
-import API_ENDPOINTS from "@util/endpoints";
 import { searchInAdminItem } from "@util/helper";
 import COPY_TEXT from "@util/copyText";
 
 import { AdminColumnsData } from "./Dashboard.static";
 import container from "./Container.module.scss";
-
-export type AdminItem = {
-  id: string;
-  email: string;
-  name: string;
-  role: "admin" | "member";
-};
+import { getAdminData, AdminItem } from "@APIs/Users.api";
+import useAsync from "@hooks/useAsync.hooks";
+import useUsers from "./useUsers.hooks";
 
 type ContainerProps = {
   searchString: string;
 };
 
 const Container = ({ searchString }: ContainerProps) => {
-  const { data, error } = useFetch<AdminItem[]>(API_ENDPOINTS.members);
+  const { data, error, isLoading, isIdle, isError, run } = useAsync<
+    Array<AdminItem>
+  >({ data: [], error: null, status: "idle" });
+  const { users, onSearch, setInitialData } = useUsers();
+
   const [pageSize, setPageSize] = useState(10);
   const [selection, setSelection] = useState<Array<AdminItem["id"]>>([]);
 
   const [selectedPage, setSelectedPage] = useState(0);
   const [actualData, setActualData] = useState<AdminItem[]>([]);
   const [totalCount, setTotalCount] = useState(data ? data.length : 0);
+
+  useEffect(() => {
+    run(getAdminData());
+  }, []);
+
+  useEffect(() => {
+    if (data) {
+      setInitialData(data);
+    }
+  }, [data]);
 
   useEffect(() => {
     const tempActualData = (
@@ -85,8 +92,8 @@ const Container = ({ searchString }: ContainerProps) => {
     console.log(params);
   };
 
-  if (error) {
-    return <div>{COPY_TEXT.ERRORS.callingAPI}</div>;
+  if (isError) {
+    return <div>{error?.message || COPY_TEXT.ERRORS.callingAPI}</div>;
   }
 
   return (
