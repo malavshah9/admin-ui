@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { GridCellEditStopParams } from "@mui/x-data-grid";
 
 import DataGrid from "@atomics/DataGrid";
+import PaginationGrid from "@atomics/PaginationGrid";
 import useFetch from "@hooks/useFetch.hooks";
 import API_ENDPOINTS from "@util/endpoints";
 import { searchInAdminItem } from "@util/helper";
@@ -31,6 +32,12 @@ const Container = ({ searchString }: ContainerProps) => {
     searchString && data
       ? data.filter((item) => searchInAdminItem(searchString, item))
       : data || [];
+
+  useEffect(() => {
+    if (selectedPage !== 0) {
+      setSelectedPage(0);
+    }
+  }, [searchString]);
 
   const onChangePageSize = (pgSize: number) => setPageSize(pgSize);
 
@@ -61,6 +68,9 @@ const Container = ({ searchString }: ContainerProps) => {
         pagination={true}
         rows={actualData}
         onCellEditStop={onCellEditStop}
+        components={{
+          Pagination: PaginationGrid,
+        }}
       />
     </div>
   );
