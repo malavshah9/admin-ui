@@ -5,6 +5,9 @@ const COPY_TEXT = {
   ERRORS: {
     callingAPI: "Error Happened while calling an API",
   },
+  BUTTONS: {
+    deleteSelected: "Delete Selected",
+  },
 };
 
 export default COPY_TEXT;
