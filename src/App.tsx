@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
-import Admin from "./features/AdminUI/screens/Admin.screen";
-import { FEATURE_WISE_ROUTES } from "./util/constants";
+import Admin from "@features/Dashboard/screens/Dashboard.screen";
+import { FEATURE_WISE_ROUTES } from "@util/constants";
 
 function App() {
   return (

@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  GridColumns,
-  GridActionsCellItem,
-  GridActionsCellItemProps,
-} from "@mui/x-data-grid";
+import { GridActionsCellItem } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 

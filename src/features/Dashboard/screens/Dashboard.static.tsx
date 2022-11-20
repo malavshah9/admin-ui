@@ -1,6 +1,6 @@
 import React from "react";
 import { GridColumns } from "@mui/x-data-grid";
-import GridActionsCellItem from "../components/GridActionsCellItem";
+import GridActionsCellItem from "@atomics/GridActionsCellItem";
 
 export const AdminColumnsData: GridColumns = [
   {
