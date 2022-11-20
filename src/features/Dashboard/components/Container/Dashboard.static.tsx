@@ -7,18 +7,18 @@ export const AdminColumnsData: GridColumns = [
     field: "name",
     headerName: "Name",
     sortable: true,
-    minWidth: 190,
+
     editable: true,
   },
   {
     field: "email",
-    headerName: "First name",
+    headerName: "Email",
     sortable: true,
-    minWidth: 240,
+
     editable: true,
   },
 
-  { field: "role", headerName: "Last name", sortable: true, minWidth: 190 },
+  { field: "role", headerName: "Last name", sortable: true },
 
   {
     field: "actions",
@@ -27,7 +27,7 @@ export const AdminColumnsData: GridColumns = [
     description: "This column has a value getter and is not sortable.",
     sortable: false,
     align: "center",
-    minWidth: 190,
+
     getActions: (params) => {
       return [
         <GridActionsCellItem iconType="delete" label="Delete" />,
