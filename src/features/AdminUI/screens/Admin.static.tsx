@@ -8,8 +8,15 @@ export const AdminColumnsData: GridColumns = [
     headerName: "Name",
     sortable: true,
     minWidth: 190,
+    editable: true,
   },
-  { field: "email", headerName: "First name", sortable: true, minWidth: 240 },
+  {
+    field: "email",
+    headerName: "First name",
+    sortable: true,
+    minWidth: 240,
+    editable: true,
+  },
 
   { field: "role", headerName: "Last name", sortable: true, minWidth: 190 },
 
@@ -22,7 +29,6 @@ export const AdminColumnsData: GridColumns = [
     align: "center",
     minWidth: 190,
     getActions: (params) => {
-      console.log(" params ", params);
       return [
         <GridActionsCellItem iconType="delete" label="Delete" />,
         <GridActionsCellItem iconType="edit" label="Edit" />,

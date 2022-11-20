@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import DataGrid from "../components/DataGrid";
 import useFetch from "../../../hooks/useFetch.hooks";
 import API_ENDPOINTS from "../../../util/endpoints";
-import GridPagination from "../components/GridPagination";
+
 import { AdminColumnsData } from "./Admin.static";
+import { GridCellEditStopParams } from "@mui/x-data-grid";
 
 export type AdminItem = {
   id: string;
@@ -21,7 +22,13 @@ const Admin = () => {
   const actualData = data || [];
 
   const onChangePageSize = (pgSize: number) => setPageSize(pgSize);
+
   const onChangePage = (pg: number) => setSelectedPage(pg);
+
+  const onCellEditStop = (params: GridCellEditStopParams<AdminItem>) => {
+    console.log(params);
+  };
+
   if (error) {
     return <div>Error Happened while calling an API</div>;
   }
@@ -35,13 +42,12 @@ const Admin = () => {
       rowsPerPageOptions={[5, 10, 15, 20]}
       page={selectedPage}
       pageSize={pageSize}
+      editMode={"cell"}
       onPageSizeChange={onChangePageSize}
       onPageChange={onChangePage}
       pagination={true}
       rows={actualData}
-      components={{
-        Pagination: GridPagination,
-      }}
+      onCellEditStop={onCellEditStop}
     />
   );
 };
