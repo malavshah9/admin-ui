@@ -11,6 +11,8 @@ import COPY_TEXT from "@util/copyText";
 import { getAdminData, AdminItem } from "@APIs/Users.api";
 import useAsync from "@hooks/useAsync.hooks";
 
+import { ROWS_PER_PAGE } from "@util/constants";
+
 import useUsers from "./useUsers.hooks";
 
 import { AdminColumnsData } from "./Dashboard.static";
@@ -73,7 +75,7 @@ const Container = ({ searchString }: ContainerProps) => {
         checkboxSelection
         paginationMode="server"
         rowCount={totalCount}
-        rowsPerPageOptions={[10]}
+        rowsPerPageOptions={ROWS_PER_PAGE}
         page={pageNumber}
         pageSize={pageSize}
         editMode={"cell"}
