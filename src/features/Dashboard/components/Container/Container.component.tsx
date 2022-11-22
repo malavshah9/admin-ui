@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, MouseEvent } from "react";
 
-import { GridCellEditStopParams, GridSelectionModel } from "@mui/x-data-grid";
+import {
+  GridCellEditStopParams,
+  GridRowParams,
+  GridSelectionModel,
+} from "@mui/x-data-grid";
 
 import DataGrid from "@atomics/DataGrid";
 import PaginationGrid from "@atomics/PaginationGrid";
@@ -15,7 +19,7 @@ import { ROWS_PER_PAGE } from "@util/constants";
 
 import useUsers from "./useUsers.hooks";
 
-import { AdminColumnsData } from "./Dashboard.static";
+import { getAdminColumnsData } from "./Dashboard.static";
 import container from "./Container.module.scss";
 
 type ContainerProps = {
@@ -23,27 +27,38 @@ type ContainerProps = {
 };
 
 const Container = ({ searchString }: ContainerProps) => {
-  const { data, error, isLoading, isError, run } = useAsync<
-    Array<AdminItem>
-  >({ data: [], error: null, status: "idle" });
+  const { data, error, isLoading, isError, run } = useAsync<Array<AdminItem>>({
+    data: [],
+    error: null,
+    status: "idle",
+  });
 
-  const { users, totalCount, onSearch, setInitialData, onChangePageNumber, pageNumber, pageSize, onChangePageSize, onDeleteSelected} = useUsers();
+  const {
+    users,
+    totalCount,
+    onSearch,
+    setInitialData,
+    onChangePageNumber,
+    pageNumber,
+    pageSize,
+    onChangePageSize,
+    onDeleteSelected,
+  } = useUsers();
 
   const [selection, setSelection] = useState<Array<AdminItem["id"]>>([]);
-
 
   useEffect(() => {
     run(getAdminData());
   }, []);
 
-  useEffect(()=>{
-      if(data){
-        setInitialData(data, pageSize)
-      }
-  },[data])
+  useEffect(() => {
+    if (data) {
+      setInitialData(data, pageSize);
+    }
+  }, [data]);
 
   useEffect(() => {
-      onSearch(searchString)
+    onSearch(searchString);
   }, [searchString]);
 
   const onSelectionModeChange = (selectionParam: GridSelectionModel) => {
@@ -51,17 +66,21 @@ const Container = ({ searchString }: ContainerProps) => {
   };
 
   const onDeleteSelectedLocal = () => {
-    onDeleteSelected(selection)
+    onDeleteSelected(selection);
   };
 
   const onCellEditStop = (params: GridCellEditStopParams<AdminItem>) => {
     // TODO: Call PUT API and update object on server side
   };
 
+  const onDeleteIndividual = (e: MouseEvent, params: GridRowParams) => {
+    onDeleteSelected([params.id as string]);
+  };
+
   if (isError) {
     return <div>{error?.message || COPY_TEXT.ERRORS.callingAPI}</div>;
   }
-  
+
   return (
     <div className={container.container}>
       {selection.length ? (
@@ -71,7 +90,7 @@ const Container = ({ searchString }: ContainerProps) => {
       ) : null}
 
       <DataGrid
-        columns={AdminColumnsData}
+        columns={getAdminColumnsData(onDeleteIndividual)}
         autoHeight
         checkboxSelection
         paginationMode="server"
