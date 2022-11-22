@@ -1,19 +1,19 @@
-
-import  React, {useLayoutEffect, useCallback} from 'react'
+import React, { useLayoutEffect, useCallback } from "react";
 
 function useSafeDispatch(dispatch: Function) {
-  const mounted = React.useRef(false)
+  const mounted = React.useRef(false);
 
   useLayoutEffect(() => {
-    mounted.current = true
-    return () => (mounted.current = false)
-  }, [])
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   return useCallback(
-    (...args) => (mounted.current ? dispatch(...args) : void 0),
-    [dispatch],
-  )
+    (...args: any) => (mounted.current ? dispatch(...args) : void 0),
+    [dispatch]
+  );
 }
-
 
 export default useSafeDispatch;

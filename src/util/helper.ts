@@ -1,4 +1,4 @@
-import { AdminItem } from "@features/Dashboard/components/Container/Container.component";
+import { AdminItem } from "@APIs/Users.api";
 
 export function searchInAdminItem(searchString: string, item: AdminItem) {
   const actualSearchString = searchString.toLowerCase();
