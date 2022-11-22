@@ -34,6 +34,11 @@ type Action =
       payload:{
         newPageSize: number
       }
+  } | {
+      type: 'DELETE_SELECTED',
+      payload: {
+        ids: Array<AdminItem['id']>
+      }
   };
 
 function UserReducer(
@@ -99,6 +104,24 @@ function UserReducer(
         pageSize: newPageSize
       }
     }
+    case 'DELETE_SELECTED':{
+      const {ids}= action.payload;
+      const { initialItems, currentPage, pageSize, searchString} = prevState
+      let newItems = initialItems.filter((item: AdminItem)=>{
+        return !ids.includes(item.id);
+      })
+      const startIndex = currentPage * pageSize;
+      let filteredItems = newItems;
+      if(searchString){
+        filteredItems = newItems.filter((item) => searchInAdminItem(searchString, item)).slice(startIndex, startIndex + pageSize)
+      }
+      return {
+        ...prevState,
+        items: searchString?filteredItems:newItems.slice(startIndex, startIndex + pageSize),
+        initialItems: searchString?newItems:filteredItems,
+        totalCount: filteredItems.length,
+      }
+    } 
     default: {
       return prevState;
     }
@@ -154,6 +177,15 @@ function useUsers() {
     })
   }
 
+  const onDeleteSelected = (ids: string[])=>{
+    dispatch({
+      type: 'DELETE_SELECTED',
+      payload:{
+        ids
+      }
+    })
+  }
+
   return {
     users: items,
     pageNumber: currentPage,
@@ -163,7 +195,8 @@ function useUsers() {
     onSearch,
     setInitialData,
     onChangePageNumber,
-    onChangePageSize
+    onChangePageSize,
+    onDeleteSelected
   };
 }
 

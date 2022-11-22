@@ -27,7 +27,7 @@ const Container = ({ searchString }: ContainerProps) => {
     Array<AdminItem>
   >({ data: [], error: null, status: "idle" });
 
-  const { users, totalCount, onSearch, setInitialData, onChangePageNumber, pageNumber, pageSize, onChangePageSize} = useUsers();
+  const { users, totalCount, onSearch, setInitialData, onChangePageNumber, pageNumber, pageSize, onChangePageSize, onDeleteSelected} = useUsers();
 
   const [selection, setSelection] = useState<Array<AdminItem["id"]>>([]);
 
@@ -50,11 +50,12 @@ const Container = ({ searchString }: ContainerProps) => {
     setSelection(selectionParam as Array<string>);
   };
 
-  const onDeleteSelected = () => {};
+  const onDeleteSelectedLocal = () => {
+    onDeleteSelected(selection)
+  };
 
   const onCellEditStop = (params: GridCellEditStopParams<AdminItem>) => {
     // TODO: Call PUT API and update object on server side
-    console.log(params);
   };
 
   if (isError) {
@@ -64,7 +65,7 @@ const Container = ({ searchString }: ContainerProps) => {
   return (
     <div className={container.container}>
       {selection.length ? (
-        <Button variant="text" onClick={onDeleteSelected}>
+        <Button variant="text" onClick={onDeleteSelectedLocal}>
           {COPY_TEXT.BUTTONS.deleteSelected}
         </Button>
       ) : null}
