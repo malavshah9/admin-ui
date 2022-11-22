@@ -5,3 +5,4 @@ export const FEATURE_WISE_ROUTES = {
 };
 
 export const ROWS_PER_PAGE=[10]
+export const STANDARD_DEBOUNCE_TIMEOUT = 500;
