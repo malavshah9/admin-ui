@@ -83,12 +83,6 @@ const Container = ({ searchString }: ContainerProps) => {
 
   return (
     <div className={container.container}>
-      {selection.length ? (
-        <Button variant="text" onClick={onDeleteSelectedLocal}>
-          {COPY_TEXT.BUTTONS.deleteSelected}
-        </Button>
-      ) : null}
-
       <DataGrid
         columns={getAdminColumnsData(onDeleteIndividual)}
         autoHeight
@@ -111,6 +105,11 @@ const Container = ({ searchString }: ContainerProps) => {
           Pagination: PaginationGrid,
         }}
       />
+      {selection.length ? (
+        <Button variant="text" onClick={onDeleteSelectedLocal}>
+          {COPY_TEXT.BUTTONS.deleteSelected}
+        </Button>
+      ) : null}
     </div>
   );
 };
